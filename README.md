@@ -27,9 +27,9 @@ Turn your Raspberry Pi into a mini weather station! This guide will help you set
 ## 🔌 Hardware Setup
 
 1. **Connect the DHT22/AM2302 sensor** to the Raspberry Pi Zero:
-   
+
    ![AM2302_to_Raspberry_Pi_Zero_Small](AM2302_to_Raspberry_Pi_Zero_Small.png)
-   
+
    - **VCC** to **3.3V** or **5V**
    - **Data** to **GPIO4**
    - **GND** to **GND**
@@ -58,12 +58,12 @@ Turn your Raspberry Pi into a mini weather station! This guide will help you set
 
 5. **Set up the API**:
    - Copy the `temp_humidity_api.py` to your desired directory; it is the only file you need.
-   
+
    - ```bash
      mkdir -p /home/pi/temp_humidity_api
      mv temp_humidity_api.py /home/pi/temp_humidity_api
      ```
-   
+
 6. **Test the API**:
 
    ```bash
@@ -88,12 +88,11 @@ Turn your Raspberry Pi into a mini weather station! This guide will help you set
      sudo nano /etc/nginx/sites-available/temp_humidity_api
      ```
 
-   - Add the following configuration 
+   - Add the following configuration
 
      - Replace `your_ip_range` with your desired IP range, e.g., `192.168.1.0/24` for access
-   
+
      - Replace `your_pi_ip_address` with your Raspberry Pi IPv4 Address
-   
 
      ```nginx
      server {
@@ -110,9 +109,9 @@ Turn your Raspberry Pi into a mini weather station! This guide will help you set
          }
      }
      ```
-   
+
    - Link the Nginx configuration and restart Nginx:
-   
+
      ```bash
      sudo ln -s /etc/nginx/sites-available/temp_humidity_api /etc/nginx/sites-enabled
      sudo nginx -t
@@ -127,14 +126,13 @@ Turn your Raspberry Pi into a mini weather station! This guide will help you set
    sudo nano /etc/systemd/system/temp_humidity_api.service
    ```
 
-2. **Add the following configuration** 
+2. **Add the following configuration**
 
    1. Replace `/path/to/your/directory` with the path to your `temp_humidity_api.py` file
 
    2. Replace `/path/to/gunicorn` where gunicorn is located (try `which gunicorn`)
 
    3. `your_username` is the user account the API will run under. *Don't use root!*
-
 
    ```ini
    [Unit]
