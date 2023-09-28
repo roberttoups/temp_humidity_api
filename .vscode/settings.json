@@ -4,6 +4,7 @@
   },
   "cSpell.words": [
     "Adafruit",
+    "configurability",
     "GPIO",
     "Gunicorn",
     "jsonify"
