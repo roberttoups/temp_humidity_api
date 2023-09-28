@@ -1,0 +1,10 @@
+# Ignore all files in the root directory
+/*
+!.gitignore
+!README.md
+!LICENSE
+!install_api.sh
+!temp_humidity_api.py
+!.vscode
+!.vscode/settings.json
+!AM2302_to_Raspberry_Pi_Zero_Small.png

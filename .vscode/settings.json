@@ -1,0 +1,11 @@
+{
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter"
+  },
+  "cSpell.words": [
+    "Adafruit",
+    "GPIO",
+    "Gunicorn",
+    "jsonify"
+  ]
+}
