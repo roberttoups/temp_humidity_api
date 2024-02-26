@@ -18,6 +18,7 @@ Turn your Raspberry Pi into a mini weather station! This guide will help you set
   - [🔗 Accessing the API](#-accessing-the-api)
   - [🔒 Security](#-security)
   - [💾 Local Data Storage](#-local-data-storage)
+    - [Sample crontab entry](#sample-crontab-entry)
 
 ## 📋 Prerequisites
 
@@ -202,3 +203,11 @@ The Nginx configuration provided restricts access to a specific IP range for add
 ## 💾 Local Data Storage
 
 The Python 3 script `get_local_data.py` is provided to store temperature and humidity data locally in a subdirectory called `temperature_data`. The script is designed to be run as a cron job to store data at regular intervals. The data is stored in a CSV file with the date and time as the filename.
+
+### Sample crontab entry
+
+This will save data every 5 minutes.
+
+```bash
+*/5 * * * * /usr/bin/python3 /home/pi/temp_humidity_api/get_local_data.py
+```
