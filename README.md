@@ -8,7 +8,7 @@ Turn your Raspberry Pi into a mini weather station! This guide will help you set
   - [📝 Table of Contents](#-table-of-contents)
   - [📋 Prerequisites](#-prerequisites)
   - [🔌 Hardware Setup](#-hardware-setup)
-  - [💾 Manual Software Setup](#-manual-software-setup)
+  - [🔧 Manual Software Setup](#-manual-software-setup)
   - [🚀 Production Deployment](#-production-deployment)
   - [🚗 Auto-Start on Boot](#-auto-start-on-boot)
   - [📜 Using the Installation Script](#-using-the-installation-script)
@@ -35,7 +35,7 @@ Turn your Raspberry Pi into a mini weather station! This guide will help you set
    - **Data** to **GPIO4**
    - **GND** to **GND**
 
-## 💾 Manual Software Setup
+## 🔧 Manual Software Setup
 
 1. **Open a terminal** on your Raspberry Pi.
 
