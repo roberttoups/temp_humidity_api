@@ -12,6 +12,12 @@ IP_RANGE=${IP_RANGE:-192.168.1.0/24}
 read -p "Do you want to enable HTTPS? (y/n, default: y): " ENABLE_HTTPS
 ENABLE_HTTPS=${ENABLE_HTTPS:-y}
 
+# If HTTPS is enabled, prompt for HTTPS port
+if [[ "${ENABLE_HTTPS,,}" == "y" ]]; then
+  read -p "Enter the port you want to use for HTTPS (default: 8443): " HTTPS_PORT
+  HTTPS_PORT=${HTTPS_PORT:-8443}
+fi
+
 # If HTTPS is enabled, prompt for certificate paths
 if [[ "${ENABLE_HTTPS,,}" == "y" ]]; then
   read -p "Enter the path to your Let's Encrypt certificate (default: /etc/letsencrypt/live/$(hostname)/fullchain.pem): " LE_CERT_PATH
@@ -102,13 +108,13 @@ server {
     
     # Redirect all HTTP traffic to HTTPS
     location / {
-        return 301 https://\$host\$request_uri;
+        return 301 https://\$host:$HTTPS_PORT\$request_uri;
     }
 }
 
 # Let's Encrypt HTTPS server
 server {
-    listen 443 ssl;
+    listen $HTTPS_PORT ssl;
     server_name $PI_IP;
     
     ssl_certificate $LE_CERT_PATH;
@@ -134,7 +140,7 @@ server {
 
 # Tailscale HTTPS server
 server {
-    listen 443 ssl;
+    listen $HTTPS_PORT ssl;
     server_name $PI_IP.tailnet-name.ts.net;
     
     ssl_certificate $TS_CERT_PATH;
@@ -166,12 +172,12 @@ server {
     
     # Redirect all HTTP traffic to HTTPS
     location / {
-        return 301 https://\$host\$request_uri;
+        return 301 https://\$host:$HTTPS_PORT\$request_uri;
     }
 }
 
 server {
-    listen 443 ssl;
+    listen $HTTPS_PORT ssl;
     server_name $PI_IP;
     
     ssl_certificate $LE_CERT_PATH;
@@ -231,11 +237,11 @@ sudo systemctl restart nginx
 
 echo "✅ Installation complete!"
 if [[ "${ENABLE_HTTPS,,}" == "y" ]]; then
-  echo "🔒 The API is now running with HTTPS enabled."
+  echo "🔒 The API is now running with HTTPS enabled on port $HTTPS_PORT."
   echo "🌐 Access URLs:"
-  echo "  - HTTPS: https://$PI_IP/metrics"
+  echo "  - HTTPS: https://$PI_IP:$HTTPS_PORT/metrics"
   if [[ "${USE_TAILSCALE,,}" == "y" ]]; then
-    echo "  - Tailscale HTTPS: https://$PI_IP.tailnet-name.ts.net/metrics"
+    echo "  - Tailscale HTTPS: https://$PI_IP.tailnet-name.ts.net:$HTTPS_PORT/metrics"
   fi
 else
   echo "🌐 The API is now running on HTTP: http://$PI_IP/metrics"
