@@ -9,7 +9,7 @@ import argparse
 
 # Default URIs
 HTTP_URI = "http://localhost:8000/metrics"
-HTTPS_URI = "https://localhost/metrics"
+HTTPS_URI = "https://localhost:8443/metrics"
 
 
 def fetch_data(uri, verify=True):
