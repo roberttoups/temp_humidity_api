@@ -2,11 +2,17 @@
   "[python]": {
     "editor.defaultFormatter": "ms-python.black-formatter"
   },
+  "github.copilot.chat.commitMessageGeneration.instructions": [
+    {
+      "text": "Generate a commit message following this structure:\n1. Start the subject line with a relevant emoji based on the change type (e.g., ✨ feat, 🐛 fix, 📝 docs, 🚀 perf, 🔧 chore, ♻️ refactor, ✅ test).\n2. Write a concise subject line (under 72 chars) summarizing the core change.\n3. Provide a detailed body explaining:\n    - WHAT specific changes were made (mention key files/functions if applicable).\n    - WHY these changes were necessary (link to issue, explain motivation).\nBe thorough, clear, and informative."
+    }
+  ],
   "cSpell.words": [
     "Adafruit",
     "configurability",
     "GPIO",
     "Gunicorn",
     "jsonify"
-  ]
+  ],
+  "wiz.codePolicies.IAC Configuration": []
 }
