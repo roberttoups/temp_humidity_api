@@ -195,19 +195,19 @@ http://your_pi_ip_address/metrics
 ### HTTPS Access (If enabled)
 
 ```text
-https://your_pi_ip_address/metrics
+https://your_pi_ip_address:8443/metrics
 ```
 
 ### Tailscale HTTPS Access (If enabled)
 
 ```text
-https://your_pi_hostname.tailnet-name.ts.net/metrics
+https://your_pi_hostname.tailnet-name.ts.net:8443/metrics
 ```
 
 This will return a JSON response with temperature and humidity data.
 
 ```bash
-[23:31:40] ~ $ curl https://localhost/metrics
+[23:31:40] ~ $ curl https://localhost:8443/metrics
 {"humidity":52.400001525878906,"temperature_celsius":21.899999618530273,"temperature_fahrenheit":71.4199993133545}
 ```
 
@@ -227,6 +227,7 @@ The installation script now supports configuring HTTPS using:
 When using the installation script, you'll be prompted to:
 
 - Enable HTTPS (recommended)
+- Specify the HTTPS port to use (default: 8443)
 - Specify the paths to your Let's Encrypt certificates
 - Optionally enable Tailscale certificate support
 
