@@ -18,7 +18,8 @@ Turn your Raspberry Pi into a mini weather station! This guide will help you set
   - [🔗 Accessing the API](#-accessing-the-api)
   - [🔒 Security](#-security)
   - [💾 Local Data Storage](#-local-data-storage)
-    - [Sample crontab entry](#sample-crontab-entry)
+    - [Command-Line Options](#command-line-options)
+    - [Sample crontab entries](#sample-crontab-entries)
 
 ## 📋 Prerequisites
 
@@ -185,29 +186,106 @@ The `install_api.sh` script is designed to automate the setup process described 
 
 Once everything is set up, you can access the API using:
 
+### HTTP Access (Default)
+
 ```text
-http://your_pi_ip_address:port/metrics
+http://your_pi_ip_address/metrics
+```
+
+### HTTPS Access (If enabled)
+
+```text
+https://your_pi_ip_address/metrics
+```
+
+### Tailscale HTTPS Access (If enabled)
+
+```text
+https://your_pi_hostname.tailnet-name.ts.net/metrics
 ```
 
 This will return a JSON response with temperature and humidity data.
 
 ```bash
-[23:31:40] ~ $ curl localhost:8000/metrics
+[23:31:40] ~ $ curl https://localhost/metrics
 {"humidity":52.400001525878906,"temperature_celsius":21.899999618530273,"temperature_fahrenheit":71.4199993133545}
 ```
 
 ## 🔒 Security
 
+### IP Restrictions
+
 The Nginx configuration provided restricts access to a specific IP range for added security. Ensure you configure this range according to your needs. Do not expose this API to the Internet. Do not run this API as root.
+
+### HTTPS Configuration
+
+The installation script now supports configuring HTTPS using:
+
+1. **Let's Encrypt Certificates**: For secure access via your Pi's IP address
+2. **Tailscale Certificates**: For secure access through your Tailscale network
+
+When using the installation script, you'll be prompted to:
+
+- Enable HTTPS (recommended)
+- Specify the paths to your Let's Encrypt certificates
+- Optionally enable Tailscale certificate support
+
+#### Certificate Management
+
+This project assumes that you're using Ansible to provision the Let's Encrypt and Tailscale certificates. The installation script does not handle certificate provisioning, but rather configures Nginx to use your existing certificates.
+
+Default certificate paths:
+
+- Let's Encrypt: `/etc/letsencrypt/live/hostname/fullchain.pem` and `/etc/letsencrypt/live/hostname/privkey.pem`
+- Tailscale: `/var/lib/tailscale/certs/hostname/cert.pem` and `/var/lib/tailscale/certs/hostname/key.pem`
 
 ## 💾 Local Data Storage
 
-The Python 3 script `get_local_data.py` is provided to store temperature and humidity data locally in a subdirectory called `temperature_data`. The script is designed to be run as a cron job to store data at regular intervals. The data is stored in a CSV file with the date and time as the filename.
+The Python 3 script `get_local_data.py` is provided to store temperature and humidity data locally in a subdirectory called `temperature_data`. The script is designed to be run as a cron job to store data at regular intervals. The data is stored in a CSV file with the date as the filename.
 
-### Sample crontab entry
+### Command-Line Options
 
-This will save data every 5 minutes.
+The script now supports various command-line options:
+
+```bash
+usage: get_local_data.py [-h] [--protocol {http,https}] [--host HOST] [--port PORT] [--path PATH] [--no-verify] [--subdirectory SUBDIRECTORY]
+
+Fetch temperature and humidity data and save to CSV.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --protocol {http,https}
+                        Protocol to use (http or https, default: https)
+  --host HOST           Hostname to connect to (default: localhost)
+  --port PORT           Port to connect to (default: 8000 for HTTP, 443 for HTTPS)
+  --path PATH           API endpoint path (default: /metrics)
+  --no-verify           Disable SSL certificate verification (for self-signed certs)
+  --subdirectory SUBDIRECTORY
+                        Subdirectory to save data in (default: temperature_data)
+```
+
+### Sample crontab entries
+
+#### For HTTP (legacy)
+
+This will save data every 5 minutes using HTTP.
+
+```bash
+*/5 * * * * /usr/bin/python3 /home/pi/temp_humidity_api/get_local_data.py --protocol http
+```
+
+#### For HTTPS (recommended)
+
+This will save data every 5 minutes using HTTPS.
 
 ```bash
 */5 * * * * /usr/bin/python3 /home/pi/temp_humidity_api/get_local_data.py
+```
+
+#### For HTTPS with self-signed certificates
+
+If using self-signed certificates (like with Tailscale):
+
+```bash
+*/5 * * * * /usr/bin/python3 /home/pi/temp_humidity_api/get_local_data.py --no-verify
 ```
