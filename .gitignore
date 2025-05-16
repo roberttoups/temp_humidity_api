@@ -13,3 +13,6 @@
 !.vscode
 !.vscode/settings.json
 !AM2302_to_Raspberry_Pi_Zero_Small.png
+
+# Certificate configuration file is tracked, but actual certificates are not
+!certificates.json.example

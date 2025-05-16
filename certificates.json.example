@@ -1,0 +1,18 @@
+{
+  "example.com": {
+    "cert_path": "/etc/letsencrypt/live/example.com/fullchain.pem",
+    "key_path": "/etc/letsencrypt/live/example.com/privkey.pem"
+  },
+  "raspberry.local": {
+    "cert_path": "/etc/letsencrypt/live/raspberry.local/fullchain.pem",
+    "key_path": "/etc/letsencrypt/live/raspberry.local/privkey.pem"
+  },
+  "raspberry.tailnet-name.ts.net": {
+    "cert_path": "/var/lib/tailscale/certs/raspberry/cert.pem",
+    "key_path": "/var/lib/tailscale/certs/raspberry/key.pem"
+  },
+  "*.example.net": {
+    "cert_path": "/path/to/wildcard/cert.pem",
+    "key_path": "/path/to/wildcard/key.pem"
+  }
+}
